@@ -17,7 +17,6 @@ list_users → load_users
 load_users → users.json
 save_users → users.json
 
-
 **Diagram dependency:**
 ┌─────────────────────────────────────────────┐
 │ app.py │
@@ -53,7 +52,17 @@ save_users → users.json
 │ └───────────┘ │
 └─────────────────────────────────────────────┘
 
-text
+```
+**Simplified Diagram:**
+main
+ └── create_user
+      ├── load_users ──► users.json
+      ├── validate_user
+      └── save_users ──► users.json
+
+list_users
+ └── load_users ──► users.json
+```
 
 **Karakteristik:**
 - Domain logic (`create_user`, `validate_user`) bergantung langsung ke storage (`load_users`, `save_users`)
@@ -73,8 +82,6 @@ UserService → validate_user
 JsonUserStorage → UserStorage (implements)
 JsonUserStorage → users.json
 validate_user → (tidak depend ke apa pun)
-
-text
 
 **Diagram dependency:**
 ┌─────────────────────────────┐
@@ -118,7 +125,20 @@ users.json
 │ (tidak depend ke apa pun) │
 └─────────────────────────────┘
 
-text
+```
+**Simpified Diagram:**
+main.py
+ ├── UserService
+ │    ├── UserStorage (interface)
+ │    └── validate_user
+ │
+ └── JsonUserStorage
+      ├── implements UserStorage
+      └── reads/writes users.json
+
+validate_user
+ └── does not depend on any module
+```
 
 ### 1.3 Penjelasan Perubahan Dependency
 
